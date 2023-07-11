@@ -1,9 +1,12 @@
 from sqlalchemy import create_engine, Column, Integer, String, Text, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from utils import get_connection_string
+
 
 # SQLAlchemy engine
-engine = create_engine(f"postgresql://admin:admin@localhost:5432/postgres")
+connection_string = get_connection_string('../config.json')
+engine = create_engine(connection_string)
 
 # A base class for declarative models
 Base = declarative_base()
