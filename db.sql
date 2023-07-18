@@ -1,3 +1,14 @@
+DROP TABLE IF EXISTS ip_t;
+DROP TABLE IF EXISTS url_t;
+DROP TABLE IF EXISTS source_t;
+
+
+CREATE TABLE source_t
+(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(64)
+);
+
 CREATE TABLE ip_t
 (
     id SERIAL PRIMARY KEY,
@@ -14,8 +25,5 @@ CREATE TABLE url_t
     id_source INT REFERENCES source_t(id) ON DELETE CASCADE
 );
 
-CREATE TABLE source_t
-(
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(64)
-)
+SELECT * FROM url_t;
+SELECT * FROM ip_t;

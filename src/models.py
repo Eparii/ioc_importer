@@ -38,5 +38,5 @@ class URL(Base):
     id_source = Column(Integer, ForeignKey('source_t.id', ondelete='CASCADE'))
 
 
-# Creates the tables in the database
+# Ensures creation of the tables in the database
 Base.metadata.create_all(engine)
