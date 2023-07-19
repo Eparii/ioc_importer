@@ -14,8 +14,8 @@ def load_json_file(json_path):
     Returns:
         json_file (dict): The contents of the JSON file as a dictionary.
     """
-    file = open(json_path)
-    json_file = json.load(file)
+    with open(json_path) as file:
+        json_file = json.load(file)
     return json_file
 
 
@@ -39,6 +39,16 @@ def get_connection_string(config_path):
 
 
 def get_iocs(urls):
+    """
+    Extracts and returns IOCs (Indicators of Compromise) from a list of URLs.
+
+    Parameters:
+        urls (list): A list of URLs from which to extract IOCs.
+
+    Returns:
+        dict: A dictionary containing the extracted IOCs. The keys are domain names
+              (str) of the URLs, and the values are lists (list) of IOCs (str).
+    """
     iocs_dict = {}
     for url in urls:
         addresses = []
@@ -55,6 +65,15 @@ def get_iocs(urls):
 
 
 def is_url(address):
+    """
+    Checks if the given address is a valid URL starting with 'http://' or 'https://'.
+
+    Parameters:
+        address (str): The address to be checked.
+
+    Returns:
+        bool: True if the address is a valid URL, False otherwise.
+    """
     pattern_url = r'https?:\/\/\S+'
     if re.match(pattern_url, address):
         return True
@@ -63,6 +82,15 @@ def is_url(address):
 
 
 def get_address(string):
+    """
+    Extracts the first occurrence of an IP address or URL from the given string.
+
+    Parameters:
+        string (str): The input string from which to extract the address.
+
+    Returns:
+        str or None: The extracted IP address or URL if found, or None if not found.
+    """
     # Matches IPs and URLs until the first occurrence of whitespace, double quotation mark or hashtag
     pattern = r'(https?:\/\/[^\"\s#]+)|((\d{1,3}\.){3}\d{1,3})'
     address = re.search(pattern, string)

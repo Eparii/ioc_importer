@@ -24,6 +24,3 @@ CREATE TABLE url_t
 
     id_source INT REFERENCES source_t(id) ON DELETE CASCADE
 );
-
-SELECT * FROM url_t;
-SELECT * FROM ip_t;

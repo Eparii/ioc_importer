@@ -5,6 +5,15 @@ from utils import is_url, get_iocs, load_json_file, get_connection_string
 
 
 def get_src(src_name):
+    """
+       Retrieves or creates a source in the database based on the provided source name.
+
+       Parameters:
+           src_name (str): The name or source identifier for which to retrieve or create the source.
+
+       Returns:
+           Source: The retrieved or newly created source object.
+    """
     src = session.query(Source).filter_by(name=src_name).first()
     if src is None:
         new_source = Source(name=src_name)
@@ -15,6 +24,16 @@ def get_src(src_name):
 
 
 def upload_url(addr, src_name):
+    """
+    Uploads a URL to the database with the corresponding source information.
+
+    Parameters:
+        addr (str): The URL address to be uploaded to the database.
+        src_name (str): The name or source identifier associated with the URL.
+
+    Returns:
+        None
+    """
     src = get_src(src_name)
     new_url = URL(
         url=addr,
@@ -25,6 +44,16 @@ def upload_url(addr, src_name):
 
 
 def upload_ip(addr, src_name):
+    """
+    Uploads an IP address to the database with the corresponding source information.
+
+    Parameters:
+        addr (str): The IP address to be uploaded to the database.
+        src_name (str): The name or source identifier associated with the IP address.
+
+    Returns:
+        None
+    """
     src = get_src(src_name)
     new_ip = IP(
         ip_address=addr,
@@ -35,7 +64,18 @@ def upload_ip(addr, src_name):
 
 
 def upload_to_database(addr_list, src_name):
-    for address in addr_list:
+    """
+     Uploads a list of addresses to the database, distinguishing between URLs and IP addresses.
+
+     Parameters:
+         addr_list (list): A list of addresses (URLs or IP addresses) to be uploaded.
+         src_name (str): The name or source identifier for the uploaded addresses.
+
+     Returns: None
+    """
+    for i, address in enumerate(addr_list):
+        if i % 100 == 0 and i != 0:
+            print("Currently uploading address " + str(i) + "/" + str(len(addr_list)) + " from source " + src_name)
         if is_url(address):
             upload_url(address, src_name)
         else:
